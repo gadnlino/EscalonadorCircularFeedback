@@ -3,12 +3,12 @@ Projeto final da matéria de Sistemas Operacionais(SO 1) do período 2020.PLE do
 
 #### Plano
 
-Iremos fazr em python(se ficar trivial, o Daniel vai refazer em C)
+Iremos fazer em python (se ficar trivial, o Daniel vai refazer em C)
 
 ## Premissas:
 
 Iremos parametrizar:
-- O número de procesos 
+- O número de processos 
 - O quantum de cada processos
 - **Tempo da E/S de disco**: 17, baixa prioridade
 - **Tempo da E/S de fita magnética**: 39, alta prioridade
