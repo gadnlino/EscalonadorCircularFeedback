@@ -30,3 +30,7 @@ Escalonador (classe Escalonador) será quem irá manipular os processos (um mont
 - E/S disco
 - E/S fita
 - E/S impressora
+
+## Referências
+
+https://www.geeksforgeeks.org/queue-in-python/
