@@ -8,6 +8,6 @@ config_json = json.load(file_buffer)
 config = Configuration(**config_json)
 
 print(len(config.processes))
-
+print()
 for process in config.processes:
 	print(process.arrivalTime)

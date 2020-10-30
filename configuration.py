@@ -15,9 +15,13 @@ class Configuration:
 
 		self.processes = []
 
+		#Se a flag 'generateProcessesAtRandom' for false, devo pegar os processos
+		#definidos na propriedade 'processes' da configuração
 		if not self.generateProcessesAtRandom:
 			for task in processes:
 				self.processes.append(Process(**task))
+		#caso contrário, ignorar a propriedade e gerar aleatoriamente
+		#os processos
 		else:
 			numberOfProcesses = random.randint(0,100)
 
