@@ -20,7 +20,14 @@
 	],
 	"processes":[
 		{
-			"arrivalTime":2
+			"arrivalTime":2,
+			"totalTime": 20,
+			"interruptions":[
+				{
+					"type":"hardDrive",
+					"time":4
+				}
+			]
 		},
 		{
 			"arrivalTime":3

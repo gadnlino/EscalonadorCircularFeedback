@@ -6,3 +6,5 @@ class Process:
 		self.ppid = None
 		self.status = None
 		self.priority = None
+		self.order = None
+		self.completionTime = float('inf')
