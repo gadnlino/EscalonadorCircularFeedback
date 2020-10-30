@@ -1,0 +1,29 @@
+{
+	"generateProcessesAtRandom": true,
+	"timeSlice": 5,
+	"ioDevices":[
+		{
+			"name":"hardDrive",
+			"requiredTime": 17,
+			"returnPriority": "low"
+		},
+		{
+			"name":"magneticTape",
+			"requiredTime": 39,
+			"returnPriority": "high"
+		},
+		{
+			"name":"printer",
+			"requiredTime": 420,
+			"returnPriority": "high"
+		}
+	],
+	"processes":[
+		{
+			"arrivalTime":2
+		},
+		{
+			"arrivalTime":3
+		}
+	]
+}
