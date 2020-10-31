@@ -33,6 +33,7 @@ Escalonador (classe Escalonador) será quem irá manipular os processos (um mont
 
 ## Referências
 
+https://en.wikipedia.org/wiki/Multilevel_feedback_queue/
 https://www.geeksforgeeks.org/queue-in-python/
 https://runestone.academy/runestone/books/published/pythonds/BasicDS/ImplementingaQueueinPython.html
 https://www.geeksforgeeks.org/program-round-robin-scheduling-set-1/
