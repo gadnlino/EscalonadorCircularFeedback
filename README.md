@@ -47,7 +47,7 @@ https://www.geeksforgeeks.org/program-round-robin-scheduling-set-1/
   - **arrivalTime**: Tempo de chegada do processo na fila de prontos.
   - **totalTime**: Tempo  total de execução do processo.
   - **interruptions**: Definição das interrupções que irão ocorrer durante a execução do processo.
-    - **category**: Categoria da interrução (qual uma definida na propriedade '**ioDevices**')
+    - **category**: Categoria da interrução (equivalente a **ioDevices[i].name**)
     - **time**: Tempo de ocorrência da interrupção.
     
 Exemplo
