@@ -31,16 +31,6 @@ Escalonador (classe Escalonador) será quem irá manipular os processos (um mont
 - E/S fita
 - E/S impressora
 
-## Referências
-
-[Algoritmo feedback](https://en.wikipedia.org/wiki/Multilevel_feedback_queue)
-
-[Implementação de filas em Python](https://www.geeksforgeeks.org/queue-in-python/)
-
-[Implementação de filas em Python 2](https://runestone.academy/runestone/books/published/pythonds/BasicDS/ImplementingaQueueinPython.html)
-
-[Algoritmo Round Robin](https://www.geeksforgeeks.org/program-round-robin-scheduling-set-1/)
-
 ## Configuração
 
 - **generateProcessesAtRandom**: Se passsado como **true**, irá gerar um numero de processos e a configuração desses aleatoriamente. Deve ser passado como **false** se a propriedade '**processes**' estiver presente.
@@ -96,3 +86,13 @@ Exemplo
 	]
 }
 ```
+
+## Referências
+
+[Algoritmo feedback](https://en.wikipedia.org/wiki/Multilevel_feedback_queue)
+
+[Implementação de filas em Python](https://www.geeksforgeeks.org/queue-in-python/)
+
+[Implementação de filas em Python 2](https://runestone.academy/runestone/books/published/pythonds/BasicDS/ImplementingaQueueinPython.html)
+
+[Algoritmo Round Robin](https://www.geeksforgeeks.org/program-round-robin-scheduling-set-1/)
