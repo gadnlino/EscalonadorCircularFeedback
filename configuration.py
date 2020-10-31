@@ -1,10 +1,11 @@
-from io_device import IoDevice
-from process import Process
+from models.io_device import IoDevice
+from models.process import Process
+from models.interruption import Interruption
 import random
 
 class Configuration:
 
-	def __init__(self,generateProcessesAtRandom, timeSlice, ioDevices, processes):
+	def __init__(self, timeSlice, ioDevices, processes, generateProcessesAtRandom = False):
 		self.generateProcessesAtRandom = generateProcessesAtRandom
 		self.timeSlice = timeSlice
 
@@ -27,4 +28,15 @@ class Configuration:
 
 			for _ in range(0, numberOfProcesses):
 				arrivalTime = random.randint(0,100)
-				self.processes.append(Process(arrivalTime))
+				totalTime = random.randint(1,100)
+
+				interruptions = []
+
+				interruption_count = random.randint(0,3)
+
+				for _ in range(0, interruption_count):
+					time = random.randint(0, totalTime)
+					category = random.choice(["hardDrive", "magneticTape", "printer"])
+					interruptions.append(Interruption(category, time))
+
+				self.processes.append(Process(arrivalTime, totalTime, interruptions=interruptions))

@@ -8,6 +8,9 @@ config_json = json.load(file_buffer)
 config = Configuration(**config_json)
 
 print(len(config.processes))
-print()
+print("-------------------------")
 for process in config.processes:
 	print(process.arrivalTime)
+	for inte in process.interruptions:
+		print("category={}, time = {}".format(inte.category, inte.time))
+	print("||||||")

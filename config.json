@@ -1,5 +1,5 @@
 {
-	"generateProcessesAtRandom": true,
+	"generateProcessesAtRandom": false,
 	"timeSlice": 5,
 	"ioDevices":[
 		{
@@ -24,13 +24,14 @@
 			"totalTime": 20,
 			"interruptions":[
 				{
-					"type":"hardDrive",
+					"category":"hardDrive",
 					"time":4
 				}
 			]
 		},
 		{
-			"arrivalTime":3
+			"arrivalTime":3,
+			"totalTime": 20
 		}
 	]
 }
