@@ -1,0 +1,32 @@
+[
+	{
+		"queues": {
+			"processor": {
+				"low": [],
+				"medium": [],
+				"high": []
+			},
+			"ioDevices": {
+				"magneticTape": [],
+				"printer": [],
+				"hardDisk": []
+			}
+		},
+		"pid": 1
+	},
+	{
+		"queues": {
+			"processor": {
+				"low": [],
+				"medium": [],
+				"high": []
+			},
+			"io": {
+				"magneticTape": [],
+				"printer": [],
+				"hardDisk": []
+			}
+		},
+		"pid": 1
+	}
+]

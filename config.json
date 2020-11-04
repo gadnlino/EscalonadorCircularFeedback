@@ -1,9 +1,9 @@
 {
-	"generateProcessesAtRandom": false,
+	"generateProcessesAtRandom": true,
 	"timeSlice": 5,
 	"ioDevices":[
 		{
-			"name":"hardDrive",
+			"name":"hardDisk",
 			"requiredTime": 17,
 			"returnPriority": "low"
 		},
