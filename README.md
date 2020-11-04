@@ -95,4 +95,7 @@ Exemplo
 
 [Implementação de filas em Python 2](https://runestone.academy/runestone/books/published/pythonds/BasicDS/ImplementingaQueueinPython.html)
 
+[Algoritmo de fila linkada em Python] (https://www.codefellows.org/blog/implementing-a-singly-linked-list-in-python/)
+
 [Algoritmo Round Robin](https://www.geeksforgeeks.org/program-round-robin-scheduling-set-1/)
+
