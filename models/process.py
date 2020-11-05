@@ -5,9 +5,11 @@ class Process:
 
 	def __init__(self, arrivalTime, totalTime, interruptions = []):
 		self.arrivalTime = arrivalTime
+		self.totalTime = totalTime
+		self.processTime = None
 		self.pid = None
 		self.ppid = None
-		self.state = ProcessState.NEW
+		self.state = ProcessState.NONEXISTENT
 		self.priority = None
 		self.order = None
 		self.completionTime = float('inf')
@@ -21,8 +23,9 @@ class Process:
 				self.interruptions.append(a)
 
 class ProcessState(Enum):
-	NEW = 1
-	READY = 2
-	EXECUTION = 3
-	BLOCKED = 4
-	FINISHED = 5
+	NONEXISTENT = 1
+	NEW = 2
+	READY = 3
+	EXECUTION = 4
+	BLOCKED = 5
+	FINISHED = 6

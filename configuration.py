@@ -36,7 +36,7 @@ class Configuration:
 
 				for _ in range(0, interruption_count):
 					time = random.randint(0, totalTime)
-					category = random.choice(["hardDrive", "magneticTape", "printer"])
+					category = random.choice(["hardDisk", "magneticTape", "printer"])
 					interruptions.append(Interruption(category, time))
 
 				self.processes.append(Process(arrivalTime, totalTime, interruptions=interruptions))

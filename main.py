@@ -1,5 +1,6 @@
 import json
 from configuration import Configuration
+from scheduler import Scheduler
 from models.frame import Frame
 
 file_buffer = open("config.json")
@@ -16,4 +17,8 @@ config = Configuration(**config_json)
 # 		print("category={}, time = {}".format(inte.category, inte.time))
 # 	print("||||||")
 
-print(json.dumps([Frame().data]))
+#print(json.dumps([Frame().data]))
+
+scheduler = Scheduler(config)
+#print(vars(config))
+scheduler.start()

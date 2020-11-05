@@ -24,8 +24,8 @@
 			"totalTime": 20,
 			"interruptions":[
 				{
-					"category":"hardDrive",
-					"time":4
+					"category":"hardDisk",
+					"processTime":4
 				}
 			]
 		},

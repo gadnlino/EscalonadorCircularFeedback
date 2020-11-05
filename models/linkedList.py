@@ -38,7 +38,7 @@ class LinkedList(object):
             self.num -= 1
             if(self.num == 0):
                 self.tail = None
-            return poppedNode
+            return poppedNode.data
         return None
 
     def find(self, data):
