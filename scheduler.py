@@ -121,8 +121,6 @@ class Scheduler:
 
             if(self.runningProcess != None):
                 self.log("pid " + str(self.runningProcess.pid) + " executando, " + str(self.runningProcess.processTime) + "/" + str(self.runningProcess.totalTime))
-                if (self.runningProcess.processTime > self.runningProcess.totalTime): 
-                    sys.exit(1)
             else:
                 self.log ("ocioso")
 
