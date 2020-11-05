@@ -23,4 +23,4 @@ f.close()
 
 p = Plotter(len(config.processes))
 
-p.plot(json.loads(frames_json))
+#p.plot(json.loads(frames_json))

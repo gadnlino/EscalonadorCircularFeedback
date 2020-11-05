@@ -183,40 +183,49 @@ class Scheduler:
         low_queue = []
         high_queue = []
 
-        for a in self.cpuQueues["low"]:
+        for a in self.cpuQueues[1]:
             low_queue.append(a.data.pid)
 
-        for a in self.cpuQueues["high"]:
+        for a in self.cpuQueues[0]:
             high_queue.append(a.data.pid)
 
         frame.set_processor_queues(low_queue, high_queue)
 
-        _, _, m_queue, m_current, _ = self.ioData.get("magneticTape")
         m_queue_list = []
+        m_index = next((i for i in range(self.ioDevicesCount) if self.ioDeviceNames[i] == "magneticTape"), None)
+        if m_index != None:
+            m_queue = self.ioQueues[m_index]
+            m_current = self.ioWaitingProcesses[m_index]
 
-        if m_current != None:
-            m_queue_list.append(m_current.pid)
+            if m_current != None:
+                m_queue_list.append(m_current.pid)
 
-        for node in m_queue:
-            m_queue_list.append(node.data.pid)
+            for node in m_queue:
+                m_queue_list.append(node.data.pid)
 
-        _, _, p_queue, p_current, _ = self.ioData.get("printer")
         p_queue_list = []
+        p_index = next((i for i in range(self.ioDevicesCount) if self.ioDeviceNames[i] == "magneticTape"), None)
+        if p_index != None:
+            p_queue = self.ioQueues[p_index]
+            p_current = self.ioWaitingProcesses[p_index]
 
-        if p_current != None:
-            p_queue_list.append(p_current.pid)
+            if p_current != None:
+                p_queue_list.append(p_current.pid)
 
-        for node in p_queue:
-            p_queue_list.append(node.data.pid)
+            for node in p_queue:
+                p_queue_list.append(node.data.pid)
 
-        _, _, h_queue, h_current, _ = self.ioData.get("hardDisk")
         h_queue_list = []
+        h_index = next((i for i in range(self.ioDevicesCount) if self.ioDeviceNames[i] == "magneticTape"), None)
+        if h_index != None:
+            h_queue = self.ioQueues[h_index]
+            h_current = self.ioWaitingProcesses[h_index]
 
-        if h_current != None:
-            h_queue_list.append(h_current.pid)
+            if h_current != None:
+                h_queue_list.append(h_current.pid)
 
-        for node in h_queue:
-            h_queue_list.append(node.data.pid)
+            for node in h_queue:
+                h_queue_list.append(node.data.pid)
 
         frame.set_io_devices_queue(m_queue_list, p_queue_list, h_queue_list)
 
