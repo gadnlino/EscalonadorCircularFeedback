@@ -14,7 +14,7 @@
 		},
 		{
 			"name":"printer",
-			"requiredTime": 420,
+			"requiredTime": 42,
 			"returnPriority": "high"
 		}
 	],
@@ -30,7 +30,7 @@
 			]
 		},
 		{
-			"arrivalTime":3,
+			"arrivalTime":10,
 			"totalTime": 20
 		}
 	]

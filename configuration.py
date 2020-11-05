@@ -24,15 +24,15 @@ class Configuration:
 		#caso contrário, ignorar a propriedade e gerar aleatoriamente
 		#os processos
 		else:
-			numberOfProcesses = random.randint(0,100)
+			numberOfProcesses = random.randint(0,25)
 
 			for _ in range(0, numberOfProcesses):
-				arrivalTime = random.randint(0,100)
-				totalTime = random.randint(1,100)
+				arrivalTime = random.randint(0,50)
+				totalTime = random.randint(1,50)
 
 				interruptions = []
 
-				interruption_count = random.randint(0,3)
+				interruption_count = random.randint(0,4)
 
 				for _ in range(0, interruption_count):
 					time = random.randint(0, totalTime)

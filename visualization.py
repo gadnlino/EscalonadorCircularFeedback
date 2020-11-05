@@ -4,7 +4,6 @@ import json
 from colors import get_colors
 import random
 
-
 class Plotter:
     def __init__(self, process_count):
         self.process_count = process_count
@@ -17,8 +16,8 @@ class Plotter:
         random.shuffle(keys)
         self.__colors = dict([(key, colors[key]) for key in keys])
 
-    def _make_line(self, x1, x2, y1, y2):
-        steps = 100
+    def __make_line(self, x1, x2, y1, y2):
+        steps = 5
         dx = (x2-x1)/steps
         dy = (y2-y1) / steps
 
@@ -35,26 +34,36 @@ class Plotter:
         self.fig = plt.figure()
         self.camera = Camera(self.fig)
         ax = plt.axes()
-        ax.set_ylim((0, self.process_count+1))
+        ax.set_ylim((0, self.process_count+2))
         ax.set_xlim((0, len(frames)))
 
         ax.set_xlabel("Tempo")
         ax.set_ylabel("PID")
 
         for i in range(len(frames)):
+
             sch_frame = frames[i]
+            
+            sch_frame["pid"]
 
-            pid = sch_frame["pid"]
+            if(sch_frame["pid"] != None):
+                pid = sch_frame["pid"]
+            else:
+                pid = -1
 
-            xs, ys = self._make_line(i, i+1, pid, pid)
+            xs, ys = self.__make_line(i, i+1, pid, pid)
             color = list(self.__colors.values())[pid-1]
 
             self.lines.append((xs, ys, color))
 
             for xx, yy, color in self.lines:
-                t = ax.plot(xx, yy, color=color)
+                t = ax.plot(xx, yy, color=color, linewidth=4)
 
-            plt.legend(t, [f' PID {pid}'])
+            if(pid == -1):
+                plt.legend(t, ["Ocioso"])
+            else:
+                plt.legend(t, [f' PID {pid}'])
+
             self.camera.snap()
         animation = self.camera.animate()
         animation.save(output_file)
