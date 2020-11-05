@@ -42,7 +42,7 @@ Escalonador (classe Escalonador) será quem irá manipular os processos (um mont
   - **totalTime**: Tempo  total de execução do processo.
   - **interruptions**: Definição das interrupções que irão ocorrer durante a execução do processo.
     - **category**: Categoria da interrução (equivalente a **ioDevices[i].name**)
-    - **time**: Tempo de ocorrência da interrupção.
+    - **time**: Tempo de ocorrência da interrupção. Observação: Não podem existir interrupções no mesmo instante num mesmo processo.
     
 Exemplo
 ---
