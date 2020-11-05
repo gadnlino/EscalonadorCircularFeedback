@@ -1,4 +1,4 @@
-# EscalonadorCircularFeedback
+# Escalonador Circular com Feedback
 Projeto final da matéria de Sistemas Operacionais(SO 1) do período 2020.PLE do curso de Ciencia da Computação - UFRJ
 
 #### Plano
@@ -49,8 +49,14 @@ Mais métodos de impressão estão em desenvolvimento.
   - **totalTime**: Tempo  total de execução do processo.
   - **interruptions**: Definição das interrupções que irão ocorrer durante a execução do processo.
     - **category**: Categoria da interrução (equivalente a **ioDevices[i].name**)
-    - **time**: Tempo de ocorrência da interrupção. Observação: Não podem existir interrupções no mesmo instante num mesmo processo.
+    - **time**: Tempo de ocorrência da interrupção.
     
+**Importante**: Alguns cuidados devem ser tomados ao inserir processos manualmente na configuração:
+- Não podem existir, num mesmo processo, duas interrupções no mesmo instante de tempo.
+- Não podem existir interrupções no último instante de execução do processo.
+
+É bom lembrar que, nesse contexto, "interrupções" se referem exclusivamente a operações de entrada e saída.
+
 Exemplo
 ---
 
