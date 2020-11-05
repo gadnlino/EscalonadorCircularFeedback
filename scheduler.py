@@ -1,6 +1,8 @@
 from copy import deepcopy
 from models.linkedList import LinkedList, Node
 from models.process import Process, ProcessState
+from models.frame import Frame
+
 
 class Scheduler:
     def __init__(self, configuration):
@@ -11,6 +13,7 @@ class Scheduler:
         self.cpuQueues = None
         self.ioData = None
         self.runningTimeSliceLength = None
+        self.frames = []
 
     def start(self):
         self.time = 0
@@ -28,9 +31,10 @@ class Scheduler:
         for ioDevice in self.configuration.ioDevices:
             if ioDevice.returnPriority != "high" and ioDevice.returnPriority != "low":
                 print("invalid i/o device: ", ioDevice.name)
-                continue # ignora invalido
+                continue  # ignora invalido
             # Tempo da IO  / Prioridade de retorno da IO / Fila de processos para usar a IO / Processo atual usando a IO / Tempo que o processo terminará de usar a IO
-            self.ioData[ioDevice.name] = (ioDevice.requiredTime, ioDevice.returnPriority, LinkedList(), None, None)
+            self.ioData[ioDevice.name] = (
+                ioDevice.requiredTime, ioDevice.returnPriority, LinkedList(), None, None)
 
         self.log("starting...")
 
@@ -45,7 +49,7 @@ class Scheduler:
                 self.freePID = self.freePID + 1
                 # PPID
                 if self.runningProcess == None:
-                    newProcess.ppid = 1 # kernel
+                    newProcess.ppid = 1  # kernel
                 else:
                     newProcess.ppid = self.runningProcess.pid
                 # Time
@@ -56,26 +60,31 @@ class Scheduler:
                 newProcess.state = ProcessState.READY
                 self.cpuQueues.get("high").add(newProcess)
                 self.log("novo pid " + str(newProcess.pid))
-            
+
             # interrupções de i/o prontas
             for ioDevice in self.ioData:
-                ioTime, ioReturnPriority, ioQueue, ioWaitingProcess, ioEndTime = self.ioData.get(ioDevice)
+                ioTime, ioReturnPriority, ioQueue, ioWaitingProcess, ioEndTime = self.ioData.get(
+                    ioDevice)
                 if ioWaitingProcess != None and self.time == ioEndTime:
                     ioWaitingProcess.processTime = ioWaitingProcess.processTime + 1
                     if ioWaitingProcess.processTime == ioWaitingProcess.totalTime:
                         ioWaitingProcess.state = ProcessState.FINISHED
                         ioWaitingProcess.completionTime = self.time
-                        self.log("pid " + str(ioWaitingProcess.pid) + " terminou i/o e encerrou")
+                        self.log("pid " + str(ioWaitingProcess.pid) +
+                                 " terminou i/o e encerrou")
                     else:
                         ioWaitingProcess.state = ProcessState.READY
                         ioWaitingProcess.priority = ioReturnPriority
-                        self.cpuQueues.get(ioReturnPriority).add(ioWaitingProcess)
-                        self.log("pid " + str(ioWaitingProcess.pid) + " terminou i/o e foi para a fila " + str(ioReturnPriority))
+                        self.cpuQueues.get(ioReturnPriority).add(
+                            ioWaitingProcess)
+                        self.log("pid " + str(ioWaitingProcess.pid) +
+                                 " terminou i/o e foi para a fila " + str(ioReturnPriority))
                     ioWaitingProcess = ioEndTime = None
-                    self.ioData[ioDevice] = (ioTime, ioReturnPriority, ioQueue, ioWaitingProcess, ioEndTime)
+                    self.ioData[ioDevice] = (
+                        ioTime, ioReturnPriority, ioQueue, ioWaitingProcess, ioEndTime)
 
             # teste de fim de processo
-            if self.runningProcess != None and self.runningProcess.processTime == self.runningProcess.totalTime: 
+            if self.runningProcess != None and self.runningProcess.processTime == self.runningProcess.totalTime:
                 self.runningProcess.state = ProcessState.FINISHED
                 self.runningProcess.completionTime = self.time
                 self.log("pid " + str(self.runningProcess.pid) + " terminou")
@@ -86,7 +95,8 @@ class Scheduler:
                 self.runningProcess.state = ProcessState.READY
                 self.runningProcess.priority = "low"
                 self.cpuQueues.get("low").add(self.runningProcess)
-                self.log("pid " + str(self.runningProcess.pid) + " usou todo o time slice")
+                self.log("pid " + str(self.runningProcess.pid) +
+                         " usou todo o time slice")
                 self.runningProcess = None
                 self.runningTimeSliceLength = 0
             # testa se há interrupções de i/o pro processo executando
@@ -95,43 +105,54 @@ class Scheduler:
             while self.runningProcess == None and any(self.cpuQueues[queue].peek() != None for queue in self.cpuQueues):
                 if self.cpuQueues["high"].peek() != None:
                     self.runningProcess = self.cpuQueues["high"].pop()
-                    self.log("pid " + str(self.runningProcess.pid) + " vindo da fila de alta prioridade")
+                    self.log("pid " + str(self.runningProcess.pid) +
+                             " vindo da fila de alta prioridade")
                 elif self.cpuQueues["low"].peek() != None:
                     self.runningProcess = self.cpuQueues["low"].pop()
-                    self.log("pid " + str(self.runningProcess.pid) + " vindo da fila de baixa prioridade")
+                    self.log("pid " + str(self.runningProcess.pid) +
+                             " vindo da fila de baixa prioridade")
                 self.runningProcess.state = ProcessState.EXECUTION
                 self.runningTimeSliceLength = 0
-                
+
                 # testa se há interrupções de i/o pro processo ao adicionar
                 self.checkRunningProcessInterruptions()
-            
+
             # início das operações de i/o
             for ioDevice in self.ioData:
-                ioTime, ioReturnPriority, ioQueue, ioWaitingProcess, ioEndTime = self.ioData.get(ioDevice)
+                ioTime, ioReturnPriority, ioQueue, ioWaitingProcess, ioEndTime = self.ioData.get(
+                    ioDevice)
                 if ioWaitingProcess == None and ioQueue.peek() != None:
                     ioWaitingProcess = ioQueue.pop()
-                    self.log("pid " + str(ioWaitingProcess.pid) + " iniciou i/o " + ioDevice)
+                    self.log("pid " + str(ioWaitingProcess.pid) +
+                             " iniciou i/o " + ioDevice)
                     ioEndTime = self.time + ioTime
-                self.ioData[ioDevice] = (ioTime, ioReturnPriority, ioQueue, ioWaitingProcess, ioEndTime)
-            
+                self.ioData[ioDevice] = (
+                    ioTime, ioReturnPriority, ioQueue, ioWaitingProcess, ioEndTime)
+
             if self.runningProcess != None:
                 self.runningProcess.processTime = self.runningProcess.processTime + 1
                 self.runningTimeSliceLength = self.runningTimeSliceLength + 1
             self.time = self.time + 1
 
             if(self.runningProcess != None):
-                self.log("pid " + str(self.runningProcess.pid) + " executando, " + str(self.runningProcess.processTime) + "/" + str(self.runningProcess.totalTime))
-                if (self.runningProcess.processTime > self.runningProcess.totalTime): 
+                self.log("pid " + str(self.runningProcess.pid) + " executando, " + str(
+                    self.runningProcess.processTime) + "/" + str(self.runningProcess.totalTime))
+                if (self.runningProcess.processTime > self.runningProcess.totalTime):
                     sys.exit(1)
             else:
-                self.log ("ocioso")
+                self.log("ocioso")
+
+            self.addFrame()
+
+        return self.frames
 
     def log(self, value):
         print(self.time, ": ", value)
 
-    def checkRunningProcessInterruptions(self): 
+    def checkRunningProcessInterruptions(self):
         for interruption in filter(lambda i: i.processTime == self.runningProcess.processTime, self.runningProcess.interruptions):
-            self.log("pid " + str(self.runningProcess.pid) + " pediu i/o " + interruption.category)
+            self.log("pid " + str(self.runningProcess.pid) +
+                     " pediu i/o " + interruption.category)
             ioQueue = self.ioData.get(interruption.category)[2]
             ioQueue.add(self.runningProcess)
             self.runningProcess.state = ProcessState.BLOCKED
@@ -145,10 +166,55 @@ class Scheduler:
         return self.runningProcess != None or \
             any(self.ioData[queue][2].peek() != None or self.ioData[queue][3] != None for queue in self.ioData) or \
             any(self.cpuQueues[queue].peek() != None for queue in self.cpuQueues) or \
-            any(process.arrivalTime >= self.time for process in self.configuration.processes)
+            any(process.arrivalTime >=
+                self.time for process in self.configuration.processes)
 
+    def addFrame(self):
+        frame = Frame()
 
-    
+        if self.runningProcess == None:
+            frame.set_pid(None)
+        else:
+            frame.set_pid(self.runningProcess.pid)
 
+        low_queue = []
+        high_queue = []
 
+        for a in self.cpuQueues["low"]:
+            low_queue.append(a.data.pid)
 
+        for a in self.cpuQueues["high"]:
+            high_queue.append(a.data.pid)
+
+        frame.set_processor_queues(low_queue, high_queue)
+
+        _, _, m_queue, m_current, _ = self.ioData.get("magneticTape")
+        m_queue_list = []
+
+        if m_current != None:
+            m_queue_list.append(m_current.pid)
+
+        for node in m_queue:
+            m_queue_list.append(node.data.pid)
+
+        _, _, p_queue, p_current, _ = self.ioData.get("printer")
+        p_queue_list = []
+
+        if p_current != None:
+            p_queue_list.append(p_current.pid)
+
+        for node in p_queue:
+            p_queue_list.append(node.data.pid)
+
+        _, _, h_queue, h_current, _ = self.ioData.get("hardDisk")
+        h_queue_list = []
+
+        if h_current != None:
+            h_queue_list.append(h_current.pid)
+
+        for node in h_queue:
+            h_queue_list.append(node.data.pid)
+
+        frame.set_io_devices_queue(m_queue_list, p_queue_list, h_queue_list)
+
+        self.frames.append(frame)

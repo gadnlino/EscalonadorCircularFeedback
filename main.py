@@ -2,6 +2,7 @@ import json
 from configuration import Configuration
 from scheduler import Scheduler
 from models.frame import Frame
+from visualization import Plotter
 
 file_buffer = open("config.json")
 
@@ -9,16 +10,17 @@ config_json = json.load(file_buffer)
 
 config = Configuration(**config_json)
 
-# print(len(config.processes))
-# print("-------------------------")
-# for process in config.processes:
-# 	print(process.arrivalTime)
-# 	for inte in process.interruptions:
-# 		print("category={}, time = {}".format(inte.category, inte.time))
-# 	print("||||||")
-
-#print(json.dumps([Frame().data]))
-
 scheduler = Scheduler(config)
-#print(vars(config))
-scheduler.start()
+frames = scheduler.start()
+
+output_file_name = "output.json"
+
+frames_json = json.dumps(list(map(lambda x : x.data, frames)))
+
+f = open(output_file_name, "w")
+f.write(frames_json)
+f.close()
+
+p = Plotter(len(config.processes))
+
+p.plot(json.loads(frames_json))
