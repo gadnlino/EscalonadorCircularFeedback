@@ -21,7 +21,7 @@ Informações do PCB vão estar na nossa estrutura de dados(classe Processo).
 
 ## Escalonador
 
-Escalonador (classe Escalonador) será quem irá manipular os processos (um monte de filas)
+O escalonador (classe Scheduler) manipula o estado dos processos, controlando as filas de execução do processador e de acesso aos dispositivos de entrada e saída, a cada instante de tempo.
 
 ### Filas
 
@@ -30,6 +30,13 @@ Escalonador (classe Escalonador) será quem irá manipular os processos (um mont
 - E/S disco
 - E/S fita
 - E/S impressora
+
+## Execução
+
+
+    python3 main.py
+
+Mais métodos de impressão estão em desenvolvimento.
 
 ## Configuração
 
