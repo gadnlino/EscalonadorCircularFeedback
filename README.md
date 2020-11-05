@@ -82,7 +82,7 @@ Exemplo
 			"interruptions":[
 				{
 					"category":"hardDrive",
-					"time":4
+					"processTime":4
 				}
 			]
 		},
