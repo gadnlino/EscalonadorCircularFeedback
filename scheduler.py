@@ -24,8 +24,8 @@ class Scheduler:
 
         self.runningProcess = None
         self.cpuQueues = self.createArray(2)
-        self.cpuQueues[0] = LinkedList() # fila de alta prioridade, "high"
-        self.cpuQueues[1] = LinkedList() # fila de baixa prioridade, "low"
+        self.cpuQueues[0] = LinkedList()  # fila de alta prioridade, "high"
+        self.cpuQueues[1] = LinkedList()  # fila de baixa prioridade, "low"
 
         self.ioDevicesCount = len(self.configuration.ioDevices)
 
@@ -65,7 +65,7 @@ class Scheduler:
                 newProcess.pid = self.freePID
                 self.freePID = self.freePID + 1
                 # PPID
-                newProcess.ppid = 1 # kernel
+                newProcess.ppid = 1  # kernel
                 # Time
                 newProcess.processTime = 0
                 # Priority
@@ -79,18 +79,14 @@ class Scheduler:
             for i in range(self.ioDevicesCount):
                 if self.ioWaitingProcesses[i] != None and self.time == self.ioEndTimes[i]:
                     self.ioWaitingProcesses[i].processTime = self.ioWaitingProcesses[i].processTime + 1
-                    if self.ioWaitingProcesses[i].processTime == self.ioWaitingProcesses[i].totalTime: # mandar email pra professora
-                        self.ioWaitingProcesses[i].state = ProcessState.FINISHED
-                        self.ioWaitingProcesses[i].completionTime = self.time
-                        self.log("pid " + str(self.ioWaitingProcesses[i].pid) + " terminou i/o e encerrou")
+                    self.ioWaitingProcesses[i].state = ProcessState.READY
+                    self.ioWaitingProcesses[i].priority = self.ioReturnPriorities[i]
+                    if (self.ioReturnPriorities[i] == "high"):
+                        self.cpuQueues[0].add(self.ioWaitingProcesses[i])
                     else:
-                        self.ioWaitingProcesses[i].state = ProcessState.READY
-                        self.ioWaitingProcesses[i].priority = self.ioReturnPriorities[i]
-                        if (self.ioReturnPriorities[i] == "high"):
-                            self.cpuQueues[0].add(self.ioWaitingProcesses[i])
-                        else:
-                            self.cpuQueues[1].add(self.ioWaitingProcesses[i])
-                        self.log("pid " + str(self.ioWaitingProcesses[i].pid) + " terminou i/o e foi para a fila " + str(self.ioReturnPriorities[i]))
+                        self.cpuQueues[1].add(self.ioWaitingProcesses[i])
+                    self.log("pid " + str(self.ioWaitingProcesses[i].pid) + " terminou i/o e foi para a fila " + str(
+                        self.ioReturnPriorities[i]))
                     self.ioWaitingProcesses[i] = self.ioEndTimes[i] = None
 
             # teste de fim de processo
@@ -105,7 +101,8 @@ class Scheduler:
                 self.runningProcess.state = ProcessState.READY
                 self.runningProcess.priority = 1
                 self.cpuQueues[1].add(self.runningProcess)
-                self.log("pid " + str(self.runningProcess.pid) + " usou todo o time slice")
+                self.log("pid " + str(self.runningProcess.pid) +
+                         " usou todo o time slice")
                 self.runningProcess = None
                 self.runningTimeSliceLength = 0
             # testa se há interrupções de i/o pro processo executando
@@ -114,10 +111,12 @@ class Scheduler:
             while self.runningProcess == None and any(self.cpuQueues[i].peek() != None for i in range(2)):
                 if self.cpuQueues[0].peek() != None:
                     self.runningProcess = self.cpuQueues[0].pop()
-                    self.log("pid " + str(self.runningProcess.pid) + " vindo da fila de alta prioridade")
+                    self.log("pid " + str(self.runningProcess.pid) +
+                             " vindo da fila de alta prioridade")
                 elif self.cpuQueues[1].peek() != None:
                     self.runningProcess = self.cpuQueues[1].pop()
-                    self.log("pid " + str(self.runningProcess.pid) + " vindo da fila de baixa prioridade")
+                    self.log("pid " + str(self.runningProcess.pid) +
+                             " vindo da fila de baixa prioridade")
                 self.runningProcess.state = ProcessState.EXECUTION
                 self.runningTimeSliceLength = 0
 
@@ -128,16 +127,18 @@ class Scheduler:
             for i in range(self.ioDevicesCount):
                 if self.ioWaitingProcesses[i] == None and self.ioQueues[i].peek() != None:
                     self.ioWaitingProcesses[i] = self.ioQueues[i].pop()
-                    self.log("pid " + str(self.ioWaitingProcesses[i].pid) + " iniciou i/o " + self.ioDeviceNames[i])
+                    self.log(
+                        "pid " + str(self.ioWaitingProcesses[i].pid) + " iniciou i/o " + self.ioDeviceNames[i])
                     self.ioEndTimes[i] = self.time + self.ioTimes[i]
-            
+
             if self.runningProcess != None:
                 self.runningProcess.processTime = self.runningProcess.processTime + 1
                 self.runningTimeSliceLength = self.runningTimeSliceLength + 1
             self.time = self.time + 1
 
             if(self.runningProcess != None):
-                self.log("pid " + str(self.runningProcess.pid) + " executando, " + str(self.runningProcess.processTime) + "/" + str(self.runningProcess.totalTime))
+                self.log("pid " + str(self.runningProcess.pid) + " executou, " + str(
+                    self.runningProcess.processTime) + "/" + str(self.runningProcess.totalTime))
             else:
                 self.log("ocioso")
 
@@ -150,15 +151,19 @@ class Scheduler:
 
     def checkRunningProcessInterruptions(self):
         for interruption in filter(lambda i: i.processTime == self.runningProcess.processTime, self.runningProcess.interruptions):
-            if interruption.ioID == None:
-                self.log("pid " + str(self.runningProcess.pid) + " executando interrupção inválida: " + interruption.category)
-                continue # ignora interrupcoes a I/O invalidas.
-            self.log("pid " + str(self.runningProcess.pid) + " pediu i/o " + interruption.category)
+            if interruption.ioID == None or self.runningProcess.processTime + 1 == self.runningProcess.totalTime:
+                self.log("pid " + str(self.runningProcess.pid) +
+                         " executando interrupção inválida: " + interruption.category)
+                self.log("instante: " + str(self.runningProcess.processTime +
+                                            1) + " / " + str(self.runningProcess.totalTime))
+                sys.exit(1)  # ignora interrupcoes a I/O invalidas.
+            self.log("pid " + str(self.runningProcess.pid) +
+                     " pediu i/o " + interruption.category)
             self.ioQueues[interruption.ioID].add(self.runningProcess)
             self.runningProcess.state = ProcessState.BLOCKED
             self.runningProcess = None
             self.runningTimeSliceLength = 0
-            break
+            break  # só pega 1 interrupção
 
     # checa as filas e os processos que ainda vao entrar pra ver se posso parar de executar
     # retorna True se ainda houver processos para executar; falso se não houver
@@ -166,7 +171,8 @@ class Scheduler:
         return self.runningProcess != None or \
             any(self.ioQueues[i].peek() != None or self.ioWaitingProcesses[i] != None for i in range(self.ioDevicesCount)) or \
             any(self.cpuQueues[i].peek() != None for i in range(2)) or \
-            any(process.arrivalTime >= self.time for process in self.configuration.processes)
+            any(process.arrivalTime >=
+                self.time for process in self.configuration.processes)
 
     # função para simular criação de array com tamanho fixo, ou calloc
     def createArray(self, length):
@@ -192,7 +198,8 @@ class Scheduler:
         frame.set_processor_queues(low_queue, high_queue)
 
         m_queue_list = []
-        m_index = next((i for i in range(self.ioDevicesCount) if self.ioDeviceNames[i] == "magneticTape"), None)
+        m_index = next((i for i in range(self.ioDevicesCount)
+                        if self.ioDeviceNames[i] == "magneticTape"), None)
         if m_index != None:
             m_queue = self.ioQueues[m_index]
             m_current = self.ioWaitingProcesses[m_index]
@@ -204,7 +211,8 @@ class Scheduler:
                 m_queue_list.append(node.data.pid)
 
         p_queue_list = []
-        p_index = next((i for i in range(self.ioDevicesCount) if self.ioDeviceNames[i] == "magneticTape"), None)
+        p_index = next((i for i in range(self.ioDevicesCount)
+                        if self.ioDeviceNames[i] == "magneticTape"), None)
         if p_index != None:
             p_queue = self.ioQueues[p_index]
             p_current = self.ioWaitingProcesses[p_index]
@@ -216,7 +224,8 @@ class Scheduler:
                 p_queue_list.append(node.data.pid)
 
         h_queue_list = []
-        h_index = next((i for i in range(self.ioDevicesCount) if self.ioDeviceNames[i] == "magneticTape"), None)
+        h_index = next((i for i in range(self.ioDevicesCount)
+                        if self.ioDeviceNames[i] == "magneticTape"), None)
         if h_index != None:
             h_queue = self.ioQueues[h_index]
             h_current = self.ioWaitingProcesses[h_index]

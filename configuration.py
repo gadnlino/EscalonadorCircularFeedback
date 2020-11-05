@@ -24,19 +24,19 @@ class Configuration:
 		#caso contrário, ignorar a propriedade e gerar aleatoriamente
 		#os processos
 		else:
-			numberOfProcesses = random.randint(0,25)
+			numberOfProcesses = random.randint(1,25)
 
-			for _ in range(0, numberOfProcesses):
+			for _ in range(numberOfProcesses):
 				arrivalTime = random.randint(0,50)
 				totalTime = random.randint(1,50)
 
 				interruptions = []
 
-				interruption_count = random.randint(0,4)
+				if (totalTime > 1):
+					interruption_times = random.sample(range(totalTime-1), min(totalTime-1, random.randint(0, 4)))
 
-				for _ in range(0, interruption_count):
-					time = random.randint(0, totalTime)
-					category = random.choice(["hardDisk", "magneticTape", "printer"])
-					interruptions.append(Interruption(category, time))
+					for time in interruption_times:
+						category = random.choice(["hardDisk", "magneticTape", "printer"])
+						interruptions.append(Interruption(category, time))
 
 				self.processes.append(Process(arrivalTime, totalTime, interruptions=interruptions))
