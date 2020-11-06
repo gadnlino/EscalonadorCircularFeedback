@@ -24,7 +24,7 @@ class Configuration:
 		#caso contrário, ignorar a propriedade e gerar aleatoriamente
 		#os processos
 		else:
-			numberOfProcesses = random.randint(1,25)
+			numberOfProcesses = random.randint(1,5)
 
 			for _ in range(numberOfProcesses):
 				arrivalTime = random.randint(0,50)
