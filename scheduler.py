@@ -89,22 +89,6 @@ class Scheduler:
                         self.ioReturnPriorities[i]))
                     self.ioWaitingProcesses[i] = self.ioEndTimes[i] = None
 
-            # teste de fim de processo
-            if self.runningProcess != None and self.runningProcess.processTime == self.runningProcess.totalTime:
-                self.runningProcess.state = ProcessState.FINISHED
-                self.runningProcess.completionTime = self.time
-                self.log("pid " + str(self.runningProcess.pid) + " terminou")
-                self.runningProcess = None
-                self.runningTimeSliceLength = 0
-            # teste de time slice
-            if self.runningTimeSliceLength == self.configuration.timeSlice:
-                self.runningProcess.state = ProcessState.READY
-                self.runningProcess.priority = 1
-                self.cpuQueues[1].add(self.runningProcess)
-                self.log("pid " + str(self.runningProcess.pid) +
-                         " usou todo o time slice")
-                self.runningProcess = None
-                self.runningTimeSliceLength = 0
             # testa se há interrupções de i/o pro processo executando
             if self.runningProcess != None:
                 self.checkRunningProcessInterruptions()
@@ -123,6 +107,23 @@ class Scheduler:
                 # testa se há interrupções de i/o pro processo ao adicionar
                 self.checkRunningProcessInterruptions()
 
+            # teste de fim de processo
+            if self.runningProcess != None and self.runningProcess.processTime == self.runningProcess.totalTime:
+                self.runningProcess.state = ProcessState.FINISHED
+                self.runningProcess.completionTime = self.time
+                self.log("pid " + str(self.runningProcess.pid) + " terminou")
+                self.runningProcess = None
+                self.runningTimeSliceLength = 0
+            # teste de time slice
+            if self.runningTimeSliceLength == self.configuration.timeSlice:
+                self.runningProcess.state = ProcessState.READY
+                self.runningProcess.priority = 1
+                self.cpuQueues[1].add(self.runningProcess)
+                self.log("pid " + str(self.runningProcess.pid) +
+                         " usou todo o time slice")
+                self.runningProcess = None
+                self.runningTimeSliceLength = 0
+            
             # início das operações de i/o
             for i in range(self.ioDevicesCount):
                 if self.ioWaitingProcesses[i] == None and self.ioQueues[i].peek() != None:
