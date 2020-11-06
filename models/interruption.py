@@ -4,3 +4,4 @@ class Interruption:
 		self.category = category
 		self.processTime = processTime
 		self.ioID = None
+		self.done = None
