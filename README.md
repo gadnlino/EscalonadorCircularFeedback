@@ -64,41 +64,43 @@ Exemplo
 {
 	"generateProcessesAtRandom": false,
 	"timeSlice": 5,
-	"ioDevices":[
+	"ioDevices": [
 		{
-			"name":"hardDrive",
-			"requiredTime": 17,
+			"name": "hardDisk",
+			"requiredTime": 7,
 			"returnPriority": "low"
 		},
 		{
-			"name":"magneticTape",
-			"requiredTime": 39,
+			"name": "magneticTape",
+			"requiredTime": 10,
 			"returnPriority": "high"
 		},
 		{
-			"name":"printer",
-			"requiredTime": 420,
+			"name": "printer",
+			"requiredTime": 11,
 			"returnPriority": "high"
 		}
 	],
-	"processes":[
+	"processes": [
 		{
-			"arrivalTime":2,
+			"arrivalTime": 2,
 			"totalTime": 20,
-			"interruptions":[
+			"interruptions": [
 				{
-					"category":"hardDrive",
-					"processTime":4
+					"category": "hardDisk",
+					"processTime": 4
 				}
 			]
 		},
 		{
-			"arrivalTime":3,
+			"arrivalTime": 10,
 			"totalTime": 20
 		}
 	]
 }
 ```
+
+![](https://media.giphy.com/media/SaLthcfQxkAMca2Osz/giphy.gif)
 
 ## Referências
 
