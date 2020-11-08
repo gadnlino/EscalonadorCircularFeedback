@@ -66,17 +66,17 @@ Exemplo
 	"ioDevices": [
 		{
 			"name": "hardDisk",
-			"requiredTime": 7,
+			"requiredTime": 10,
 			"returnPriority": "low"
 		},
 		{
 			"name": "magneticTape",
-			"requiredTime": 10,
+			"requiredTime": 4,
 			"returnPriority": "high"
 		},
 		{
 			"name": "printer",
-			"requiredTime": 11,
+			"requiredTime": 5,
 			"returnPriority": "high"
 		}
 	],
