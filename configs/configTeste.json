@@ -39,8 +39,9 @@
 			"interruptions":[
 				{
 					"category":"magneticTape",
-					"processTime":2
+					"processTime":1
 				}
+			]
 		},
 		{
 			"arrivalTime":3,
@@ -48,8 +49,9 @@
 			"interruptions":[
 				{
 					"category":"magneticTape",
-					"processTime":1
+					"processTime":0
 				}
+			]
 		},
 		{
 			"arrivalTime":4,
@@ -61,8 +63,9 @@
 			"interruptions":[
 				{
 					"category":"printer",
-					"processTime":4
+					"processTime":3
 				}
+			]
 		},
 		{
 			"arrivalTime":5,
@@ -76,6 +79,7 @@
 					"category":"magneticTape",
 					"processTime":3
 				}
+			]
 		}
 	]
 }
