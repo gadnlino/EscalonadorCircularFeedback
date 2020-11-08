@@ -28,11 +28,11 @@ class Plotter:
         processor_l_queue = frame['processor']['low']
 
         l_label = 'Fila baixa prioridade processador = [' + ','.join(list_to_str(processor_l_queue)) + ']'
-        ax_filas.text(padding_left, 3.6, l_label, fontsize=font_size)
+        ax_filas.text(padding_left, 0.21, l_label, fontsize=font_size, transform=plt.gcf().transFigure)
 
         processor_h_queue = frame['processor']['high']
         h_label = 'Fila alta prioridade processador = [' + ','.join(list_to_str(processor_h_queue)) + ']'
-        ax_filas.text(padding_left, 3.3, h_label, fontsize=font_size)
+        ax_filas.text(padding_left, 0.19, h_label, fontsize=font_size, transform=plt.gcf().transFigure)
 
         mag_current = frame['ioDevices']['magneticTape']['current']
         mag_current_label = 'Processo utilizando fita magnética = '
@@ -40,11 +40,11 @@ class Plotter:
         if(mag_current != None):
             mag_current_label = mag_current_label + str(mag_current)
 
-        ax_filas.text(padding_left, 3.0, mag_current_label, fontsize=font_size)
+        ax_filas.text(padding_left, 0.17, mag_current_label, fontsize=font_size, transform=plt.gcf().transFigure)
 
         mag_queue = frame['ioDevices']['magneticTape']['queue']
         mag_label = 'Fila fita magnética = [' + ','.join(list_to_str(mag_queue)) + ']'
-        ax_filas.text(padding_left, 2.7, mag_label, fontsize=font_size)
+        ax_filas.text(padding_left, 0.15, mag_label, fontsize=font_size, transform=plt.gcf().transFigure)
 
         printer_current = frame['ioDevices']['printer']['current']
         printer_current_label = 'Processo utilizando impressora = '
@@ -52,11 +52,11 @@ class Plotter:
         if(printer_current != None):
             printer_current_label = printer_current_label + str(printer_current)
 
-        ax_filas.text(padding_left, 2.4, printer_current_label, fontsize=font_size)
+        ax_filas.text(padding_left, 0.13, printer_current_label, fontsize=font_size, transform=plt.gcf().transFigure)
 
         printer_queue = frame['ioDevices']['printer']['queue']
         printer_label = 'Fila impressora = [' + ','.join(list_to_str(printer_queue)) + ']'
-        ax_filas.text(padding_left, 2.1, printer_label, fontsize=font_size)
+        ax_filas.text(padding_left, 0.11, printer_label, fontsize=font_size, transform=plt.gcf().transFigure)
 
         hd_current = frame['ioDevices']['hardDisk']['current']
         hd_current_label = 'Processo utilizando HD = '
@@ -64,14 +64,14 @@ class Plotter:
         if(hd_current != None):
             hd_current_label = hd_current_label + str(hd_current)
 
-        ax_filas.text(padding_left, 1.8, hd_current_label, fontsize=font_size)
+        ax_filas.text(padding_left, 0.09, hd_current_label, fontsize=font_size, transform=plt.gcf().transFigure)
 
         hd_queue = frame['ioDevices']['hardDisk']['queue']
         hd_label = 'Fila HD = [' + ','.join(list_to_str(hd_queue)) + ']'
-        ax_filas.text(padding_left, 1.5, hd_label, fontsize=font_size)
+        ax_filas.text(padding_left, 0.07, hd_label, fontsize=font_size, transform=plt.gcf().transFigure)
 
-        ax_filas.text(padding_left, 0.75, f"Quantum = {self.time_slice}", fontsize=font_size)
-        ax_filas.text(padding_left, 0.4, f"Tempo = {i}", fontsize=font_size)
+        ax_filas.text(padding_left, 0.04, f"Quantum = {self.time_slice}", fontsize=font_size, transform=plt.gcf().transFigure)
+        ax_filas.text(padding_left, 0.02, f"Tempo = {i}", fontsize=font_size, transform=plt.gcf().transFigure)
 
     def _plot_frame_processos(self, ax_processos, frame, i):
         pid = frame["pid"]
@@ -108,9 +108,9 @@ class Plotter:
     def plot(self, frames, output_file="animation.gif"):
         print('Gerando gif...')
 
-        fig, (ax_processos, ax_filas) = plt.subplots(2, 1, sharey=True)
-        fig.set_figheight(8)
-        fig.set_figwidth(12)
+        fig, (ax_processos, ax_filas) = plt.subplots(2, 1, sharey=True, gridspec_kw={'height_ratios': [3, 1]})
+        fig.set_figheight(8+(self.process_count*0.2))
+        fig.set_figwidth(8+(len(frames)*0.08))
         self.fig = fig
         self.camera = Camera(self.fig)
 
