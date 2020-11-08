@@ -106,6 +106,8 @@ class Plotter:
                 ax_processos.legend(t, [f' PID {pid}'])
 
     def plot(self, frames, output_file="animation.gif"):
+        print('Gerando gif...')
+
         fig, (ax_processos, ax_filas) = plt.subplots(2, 1, sharey=True)
         fig.set_figheight(8)
         fig.set_figwidth(12)

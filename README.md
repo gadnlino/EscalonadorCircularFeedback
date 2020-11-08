@@ -33,8 +33,7 @@ O escalonador (classe Scheduler) manipula o estado dos processos, controlando as
 
 ## Execução
 
-
-    python3 main.py --input_file <input_file> --output_file <output_file>
+    python3 main.py --input_file <input_file> [--output-type gif|stdout] [--save-intermediary]
 
 Mais métodos de impressão estão em desenvolvimento.
 
