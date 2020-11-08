@@ -1,6 +1,6 @@
 {
-	"generateProcessesAtRandom": true,
-	"timeSlice": 5,
+	"generateProcessesAtRandom": false,
+	"timeSlice": 1,
 	"ioDevices":[
 		{
 			"name":"hardDisk",
@@ -20,18 +20,23 @@
 	],
 	"processes":[
 		{
-			"arrivalTime":2,
-			"totalTime": 20,
-			"interruptions":[
-				{
-					"category":"hardDisk",
-					"processTime":4
-				}
-			]
+			"arrivalTime":0,
+			"totalTime": 10
 		},
 		{
-			"arrivalTime":10,
-			"totalTime": 20
+			"arrivalTime":0,
+			"totalTime": 1
+		},
+		{
+			"arrivalTime":0,
+			"totalTime": 2
+		},
+			"arrivalTime":0,
+			"totalTime":1
+		},
+		{
+			"arrivalTime":0,
+			"totalTime":5
 		}
 	]
 }
