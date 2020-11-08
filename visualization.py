@@ -17,82 +17,122 @@ class Plotter:
         random.shuffle(keys)
         self.__colors = dict([(key, colors[key]) for key in keys])
 
-    def __make_line(self, x1, x2, y1, y2):
-        steps = 5
-        dx = (x2-x1)/steps
-        dy = (y2-y1) / steps
+    def _plot_frame_filas(self, ax_filas, frame, i):
+        def list_to_str(array):
+            return map(lambda x : str(x), array)
 
-        xs = []
-        ys = []
+        padding_left = 0.3
+        font_size = 16        
 
-        for i in range(steps+1):
-            xs.append(x1 + dx * i)
-            ys.append(y1 + dy * i)
+        processor_l_queue = frame['processor']['low']
 
-        return xs, ys
+        l_label = 'Fila baixa prioridade processador = [' + ','.join(list_to_str(processor_l_queue)) + ']'
+        ax_filas.text(padding_left, 3.6, l_label, fontsize=font_size)
 
-    def plot(self, frames, output_file="animation.gif"):
-        self.fig = plt.figure()
-        self.camera = Camera(self.fig)
-        ax = plt.axes()
-        ax.set_ylim((0, self.process_count+2))
-        ax.set_xlim((0, len(frames)))
-        ax.set_yticks(range(0, self.process_count+2, 1))
-        ax.set_xticks(range(0, len(frames), 5))
+        processor_h_queue = frame['processor']['high']
+        h_label = 'Fila alta prioridade processador = [' + ','.join(list_to_str(processor_h_queue)) + ']'
+        ax_filas.text(padding_left, 3.3, h_label, fontsize=font_size)
 
-        ax.set_ylabel("PID")
-        ax.set_xlabel("Tempo")
-        plt.grid()
+        mag_current = frame['ioDevices']['magneticTape']['current']
+        mag_current_label = 'Processo utilizando fita magnética = '
+        
+        if(mag_current != None):
+            mag_current_label = mag_current_label + str(mag_current)
 
-        for i in range(0, len(frames)):
-            #ax.text(len(frames) / 2, self.process_count - 10, "t = {}".format(i), color="red")
+        ax_filas.text(padding_left, 3.0, mag_current_label, fontsize=font_size)
 
-            sch_frame = frames[i-1]
+        mag_queue = frame['ioDevices']['magneticTape']['queue']
+        mag_label = 'Fila fita magnética = [' + ','.join(list_to_str(mag_queue)) + ']'
+        ax_filas.text(padding_left, 2.7, mag_label, fontsize=font_size)
 
-            pid = sch_frame["pid"]
+        printer_current = frame['ioDevices']['printer']['current']
+        printer_current_label = 'Processo utilizando impressora = '
+        
+        if(printer_current != None):
+            printer_current_label = printer_current_label + str(printer_current)
 
-            if(sch_frame["pid"] != None):
-                pid = sch_frame["pid"]
+        ax_filas.text(padding_left, 2.4, printer_current_label, fontsize=font_size)
+
+        printer_queue = frame['ioDevices']['printer']['queue']
+        printer_label = 'Fila impressora = [' + ','.join(list_to_str(printer_queue)) + ']'
+        ax_filas.text(padding_left, 2.1, printer_label, fontsize=font_size)
+
+        hd_current = frame['ioDevices']['hardDisk']['current']
+        hd_current_label = 'Processo utilizando HD = '
+        
+        if(hd_current != None):
+            hd_current_label = hd_current_label + str(hd_current)
+
+        ax_filas.text(padding_left, 1.8, hd_current_label, fontsize=font_size)
+
+        hd_queue = frame['ioDevices']['hardDisk']['queue']
+        hd_label = 'Fila HD = [' + ','.join(list_to_str(hd_queue)) + ']'
+        ax_filas.text(padding_left, 1.5, hd_label, fontsize=font_size)
+
+        ax_filas.text(padding_left, 0.5, f"Tempo = {i}", fontsize=font_size)
+
+    def _plot_frame_processos(self, ax_processos, frame, i):
+        pid = frame["pid"]
+
+        if(frame["pid"] != None):
+            pid = frame["pid"]
+        else:
+            pid = -1
+        # Minimizando o numero de retas a serem plotadas
+        if len(self.lines) == 0:
+            color = list(self.__colors.values())[pid-1]
+            line = ([i-1, i], [pid, pid], color)
+            self.lines.append(line)
+        else:
+            (xx, yy, color) = self.lines[len(self.lines) - 1]
+            if yy[0] == yy[1] == pid:
+                new_line = ([xx[0], i], yy, color)
+                self.lines[len(self.lines) - 1] = new_line
             else:
-                pid = -1
-
-            # Minimizando o numero de retas a serem plotadas
-            if len(self.lines) == 0:
                 color = list(self.__colors.values())[pid-1]
                 line = ([i-1, i], [pid, pid], color)
                 self.lines.append(line)
-            else:
-                (xx, yy, color) = self.lines[len(self.lines) - 1]
 
-                if yy[0] == yy[1] == pid:
-                    new_line = ([xx[0], i], yy, color)
-                    self.lines[len(self.lines) - 1] = new_line
-                else:
-                    color = list(self.__colors.values())[pid-1]
-                    line = ([i-1, i], [pid, pid], color)
-                    self.lines.append(line)
-
-            # print("Lines:")
-            # print(self.lines)
-            # print()
-
-            label = "PID {}".format(pid) if pid != -1 else "Ocioso"
-
-            for xx, yy, color in self.lines:
-                t = ax.plot(xx, yy, color=color, linewidth=4.0, label=label)
+        label = "PID {}".format(pid) if pid != -1 else "Ocioso"
+        for xx, yy, color in self.lines:
+            t = ax_processos.plot(xx, yy, color=color,
+                                  linewidth=4.0, label=label)
 
             if(pid == -1):
-                plt.legend(t, ["Ocioso"])
+                ax_processos.legend(t, ["Ocioso"])
             else:
-                plt.legend(t, [f' PID {pid}'])
+                ax_processos.legend(t, [f' PID {pid}'])
 
+    def plot(self, frames, output_file="animation.gif"):
+        fig, (ax_processos, ax_filas) = plt.subplots(2, 1, sharey=True)
+        fig.set_figheight(8)
+        fig.set_figwidth(12)
+        self.fig = fig
+        self.camera = Camera(self.fig)
+
+        ax_processos.set_ylim((0, self.process_count+2))
+        ax_processos.set_xlim((0, len(frames)))
+        ax_processos.set_yticks(range(0, self.process_count+2, 1))
+        ax_processos.set_xticks(range(0, len(frames), 10))
+
+        ax_processos.set_ylabel("PID")
+        ax_processos.set_xlabel("Tempo")
+        ax_processos.grid()
+
+        ax_filas.axis("off")
+
+        for i in range(0, len(frames)):
+            sch_frame = frames[i-1]
+            self._plot_frame_processos(ax_processos, sch_frame, i)
+            self._plot_frame_filas(ax_filas, sch_frame, i)
             self.camera.snap()
+
         animation = self.camera.animate(interval=50)
         animation.save(output_file, dpi=100, fps=5)
 
 
-def __test_plot():
-    file_buffer = open("output.json")
+def test_plot():
+    file_buffer = open("intermediary.json")
     frames = json.load(file_buffer)
 
     ptt = Plotter(4)
@@ -100,4 +140,4 @@ def __test_plot():
 
 
 if __name__ == "__main__":
-    __test_plot()
+    test_plot()

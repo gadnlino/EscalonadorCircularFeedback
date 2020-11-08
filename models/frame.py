@@ -1,18 +1,27 @@
-import json 
+import json
 
 class Frame:
     def __init__(self):
         self.data = {
-            'pid': '',
+            'pid': None,
             'processor': {
                 'low': [],
                 'medium': [],
                 'high': []
             },
             'ioDevices': {
-                'magneticTape': [],
-                'printer': [],
-                'hardDisk': []
+                'magneticTape': {
+                    'current': None,
+                    'queue': []
+                },
+                'printer': {
+                    'current': None,
+                    'queue': []
+                },
+                'hardDisk': {
+                    'current': None,
+                    'queue': []
+                }
             }
         }
 
@@ -24,6 +33,11 @@ class Frame:
         self.data['processor']['high'] = highQueue
 
     def set_io_devices_queue(self, magneticTapeQueue, printerQueue, hardDiskQueue):
-        self.data['ioDevices']['magneticTape'] = magneticTapeQueue
-        self.data['ioDevices']['printer'] = printerQueue
-        self.data['ioDevices']['hardDisk'] = hardDiskQueue
+        self.data['ioDevices']['magneticTape']['queue'] = magneticTapeQueue
+        self.data['ioDevices']['printer']['queue'] = printerQueue
+        self.data['ioDevices']['hardDisk']['queue'] = hardDiskQueue
+    
+    def set_current_io_processes(self, currentMagneticTape, currentPrinter, currentHardDisk):
+        self.data['ioDevices']['magneticTape']['current'] = currentMagneticTape
+        self.data['ioDevices']['printer']['current'] = currentPrinter
+        self.data['ioDevices']['hardDisk']['current'] = currentHardDisk

@@ -6,17 +6,17 @@ from visualization import Plotter
 import sys
 import argparse
 
-
 def main():
 	inputfile = ''
 	outputfile = ''
-	parser = argparse.ArgumentParser(description="A processor scheduler simulator.")
-	parser.add_argument('--input_file', help='The name of the input file.')
+	parser = argparse.ArgumentParser(description="A processor scheduler simulator, implementing the round robin and feedback policy.")
+	parser.add_argument('--input_file', help='The name of the input configuration file.')
 	parser.add_argument('--output_file', help='The name of the output file.')
 	args = parser.parse_args()
 	args_dict = vars(args)
 
-	if(not args_dict["input_file"] != None and not args_dict["output_file"] != None):
+	if(not args_dict["input_file"] != None and
+		 not args_dict["output_file"] != None):
 		parser.print_help()
 		sys.exit(1)
 
