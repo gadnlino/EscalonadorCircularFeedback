@@ -148,3 +148,4 @@ dmypy.json
 # gitignores do projeto do simulador
 output.json
 intermediary.json
+animation.gif
