@@ -98,7 +98,7 @@ class Plotter:
         label = "PID {}".format(pid) if pid != -1 else "Ocioso"
         for xx, yy, color in self.lines:
             t = ax_processos.plot(xx, yy, color=color,
-                                  linewidth=4.0, label=label)
+                                  linewidth=20.0, label=label, solid_capstyle='butt')
 
             if(pid == -1):
                 ax_processos.legend(t, ["Ocioso"])
@@ -132,7 +132,7 @@ class Plotter:
             self.camera.snap()
 
         animation = self.camera.animate(interval=50)
-        animation.save(output_file, dpi=100, fps=5)
+        animation.save(output_file, dpi=100, fps=5, writer="pillow")
 
 def test_plot():
     file_buffer = open("intermediary.json")
