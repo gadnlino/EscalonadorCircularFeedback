@@ -10,9 +10,9 @@ Iremos fazer em python (se ficar trivial, o Daniel vai refazer em C)
 Iremos parametrizar:
 - O número de processos 
 - O quantum de cada processos
-- **Tempo da E/S de disco**: 17, baixa prioridade
-- **Tempo da E/S de fita magnética**: 39, alta prioridade
-- **Tempo da E/S da impressora**: 420, alta prioridade
+- **Tempo da E/S de disco**: 10, baixa prioridade
+- **Tempo da E/S de fita magnética**: 4, alta prioridade
+- **Tempo da E/S da impressora**: 5, alta prioridade
 
 ## Informações dos processos
 
@@ -66,17 +66,17 @@ Exemplo
 	"ioDevices": [
 		{
 			"name": "hardDisk",
-			"requiredTime": 7,
+			"requiredTime": 10,
 			"returnPriority": "low"
 		},
 		{
 			"name": "magneticTape",
-			"requiredTime": 10,
+			"requiredTime": 4,
 			"returnPriority": "high"
 		},
 		{
 			"name": "printer",
-			"requiredTime": 11,
+			"requiredTime": 5,
 			"returnPriority": "high"
 		}
 	],
