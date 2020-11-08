@@ -1,9 +1,13 @@
 from matplotlib import pyplot as plt
+import matplotlib.patheffects as path_effects
 from celluloid import Camera
 import json
 from colors import get_colors
 import random
 
+
+def avg(a, b):
+    return (a + b) / 2.0
 
 class Plotter:
     def __init__(self, process_count, time_slice):
@@ -20,10 +24,10 @@ class Plotter:
 
     def _plot_frame_filas(self, ax_filas, frame, i):
         def list_to_str(array):
-            return map(lambda x : str(x), array)
+            return map(lambda x: str(x), array)
 
         padding_left = 0.3
-        font_size = 16        
+        font_size = 16
 
         processor_l_queue = frame['processor']['low']
 
@@ -36,7 +40,7 @@ class Plotter:
 
         mag_current = frame['ioDevices']['magneticTape']['current']
         mag_current_label = 'Processo utilizando fita magnética = '
-        
+
         if(mag_current != None):
             mag_current_label = mag_current_label + str(mag_current)
 
@@ -48,9 +52,10 @@ class Plotter:
 
         printer_current = frame['ioDevices']['printer']['current']
         printer_current_label = 'Processo utilizando impressora = '
-        
+
         if(printer_current != None):
-            printer_current_label = printer_current_label + str(printer_current)
+            printer_current_label = printer_current_label + \
+                str(printer_current)
 
         ax_filas.text(padding_left, 0.13, printer_current_label, fontsize=font_size, transform=plt.gcf().transFigure)
 
@@ -60,7 +65,7 @@ class Plotter:
 
         hd_current = frame['ioDevices']['hardDisk']['current']
         hd_current_label = 'Processo utilizando HD = '
-        
+
         if(hd_current != None):
             hd_current_label = hd_current_label + str(hd_current)
 
@@ -95,15 +100,27 @@ class Plotter:
                 line = ([i-1, i], [pid, pid], color)
                 self.lines.append(line)
 
-        label = "PID {}".format(pid) if pid != -1 else "Ocioso"
         for xx, yy, color in self.lines:
-            t = ax_processos.plot(xx, yy, color=color,
-                                  linewidth=20.0, label=label, solid_capstyle='butt')
-
-            if(pid == -1):
-                ax_processos.legend(t, ["Ocioso"])
+            # t = ax_processos.plot(xx, yy, color=color,
+            #                       linewidth=20.0, label=label, solid_capstyle='butt')
+            #t = plt.barh(pid, xx[1] - xx[0], left=xx, color = color, edgecolor = color, align='center', height=1)
+            
+            #Se o processador estiver ocioso, não ploto nada
+            if(xx[0] == -1):
+                continue
             else:
-                ax_processos.legend(t, [f' PID {pid}'])
+                ax_processos.fill_between(xx, yy[0]-1, yy[0], color=color)
+                txt = ax_processos.text(avg(xx[0], xx[1]), avg(yy[0]-1, yy[0]), f"{yy[0]}", 
+                                        horizontalalignment='center',
+                                        verticalalignment='center', color='white')
+                #txt.set_path_effects([path_effects.withStroke(linewidth=2, foreground='w')])
+                txt.set_path_effects([path_effects.Stroke(linewidth=2, foreground='black'),
+                       path_effects.Normal()])
+
+            # if(pid == -1):
+            #     ax_processos.legend(t, ["Ocioso"])
+            # else:
+            #     ax_processos.legend(t, [f' PID {pid}'])
 
     def plot(self, frames, output_file="animation.gif"):
         print('Gerando gif...')
@@ -117,11 +134,26 @@ class Plotter:
         ax_processos.set_ylim((0, self.process_count+2))
         ax_processos.set_xlim((0, len(frames)))
         ax_processos.set_yticks(range(0, self.process_count+2, 1))
-        ax_processos.set_xticks(range(0, len(frames), 5))
+
+        x_spacing = 5
+
+        if(len(frames) > 100):
+            x_spacing = 10
+        elif (len(frames) > 200):
+            x_spacing = 20
+        elif((len(frames) > 300)):
+            x_spacing = 30
+        elif((len(frames) > 400)):
+            x_spacing = 40
+        elif((len(frames) > 500)):
+            x_spacing = 50
+
+        ax_processos.set_xticks(range(0, len(frames), x_spacing))
 
         ax_processos.set_ylabel("PID")
         ax_processos.set_xlabel("Tempo")
         ax_processos.grid()
+        ax_processos.get_yaxis().set_visible(False)
 
         ax_filas.axis("off")
 
@@ -134,12 +166,14 @@ class Plotter:
         animation = self.camera.animate(interval=50)
         animation.save(output_file, dpi=100, fps=5, writer="pillow")
 
+
 def test_plot():
     file_buffer = open("intermediary.json")
     frames = json.load(file_buffer)
 
     ptt = Plotter(4, 5)
     ptt.plot(frames)
+
 
 if __name__ == "__main__":
     test_plot()

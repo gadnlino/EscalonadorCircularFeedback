@@ -19,7 +19,7 @@ def main():
     args = parser.parse_args()
     args_dict = vars(args)
 
-    if(not args_dict["input_file"] != None):
+    if(args_dict["input_file"] == None):
         parser.print_help()
         sys.exit(1)
 
