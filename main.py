@@ -33,7 +33,7 @@ def main():
 	f = open(intermediary_file, "w")
 	f.write(frames_json)
 	f.close()
-	p = Plotter(len(config.processes))
+	p = Plotter(len(config.processes), config.timeSlice)
 	p.plot(json.loads(frames_json), output_file=outputfile)
 
 if __name__ == "__main__":

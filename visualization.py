@@ -6,8 +6,9 @@ import random
 
 
 class Plotter:
-    def __init__(self, process_count):
+    def __init__(self, process_count, time_slice):
         self.process_count = process_count
+        self.time_slice = time_slice
         self.time = 0
         self.fig = None
         self.camera = None
@@ -69,7 +70,8 @@ class Plotter:
         hd_label = 'Fila HD = [' + ','.join(list_to_str(hd_queue)) + ']'
         ax_filas.text(padding_left, 1.5, hd_label, fontsize=font_size)
 
-        ax_filas.text(padding_left, 0.5, f"Tempo = {i}", fontsize=font_size)
+        ax_filas.text(padding_left, 0.75, f"Quantum = {self.time_slice}", fontsize=font_size)
+        ax_filas.text(padding_left, 0.4, f"Tempo = {i}", fontsize=font_size)
 
     def _plot_frame_processos(self, ax_processos, frame, i):
         pid = frame["pid"]
@@ -113,7 +115,7 @@ class Plotter:
         ax_processos.set_ylim((0, self.process_count+2))
         ax_processos.set_xlim((0, len(frames)))
         ax_processos.set_yticks(range(0, self.process_count+2, 1))
-        ax_processos.set_xticks(range(0, len(frames), 10))
+        ax_processos.set_xticks(range(0, len(frames), 5))
 
         ax_processos.set_ylabel("PID")
         ax_processos.set_xlabel("Tempo")
@@ -130,14 +132,12 @@ class Plotter:
         animation = self.camera.animate(interval=50)
         animation.save(output_file, dpi=100, fps=5)
 
-
 def test_plot():
     file_buffer = open("intermediary.json")
     frames = json.load(file_buffer)
 
-    ptt = Plotter(4)
+    ptt = Plotter(4, 5)
     ptt.plot(frames)
-
 
 if __name__ == "__main__":
     test_plot()
