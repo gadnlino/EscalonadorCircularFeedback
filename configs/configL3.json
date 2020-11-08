@@ -1,0 +1,65 @@
+{
+	"generateProcessesAtRandom": false,
+	"timeSlice": 4,
+	"ioDevices":[
+		{
+			"name":"hardDisk",
+			"requiredTime": 17,
+			"returnPriority": "low"
+		},
+		{
+			"name":"A",
+			"requiredTime": 7,
+			"returnPriority": "high"
+		},
+		{
+			"name":"B",
+			"requiredTime": 4,
+			"returnPriority": "high"
+		}
+	],
+	"processes":[
+		{
+			"arrivalTime":0,
+			"totalTime": 13,
+			"interruptions":[
+				{
+					"category":"A",
+					"processTime":4
+				}
+		},
+		{
+			"arrivalTime":4,
+			"totalTime": 11,
+			"interruptions":[
+				{
+					"category":"B",
+					"processTime":2
+				},
+				{
+					"category":"A",
+					"processTime":6
+				}
+		},
+		{
+			"arrivalTime":5,
+			"totalTime": 7
+		},
+			"arrivalTime":7,
+			"totalTime":8
+		},
+		{
+			"arrivalTime":10,
+			"totalTime":16,
+			"interruptions":[
+				{
+					"category":"A",
+					"processTime":2
+				},
+				{
+					"category":"B",
+					"processTime":7
+				}
+		}
+	]
+}
