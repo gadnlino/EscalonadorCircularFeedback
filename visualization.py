@@ -106,7 +106,7 @@ class Plotter:
             #t = plt.barh(pid, xx[1] - xx[0], left=xx, color = color, edgecolor = color, align='center', height=1)
             
             #Se o processador estiver ocioso, não ploto nada
-            if(xx[0] == -1):
+            if(yy[0] == -1):
                 continue
             else:
                 ax_processos.fill_between(xx, yy[0]-1, yy[0], color=color)
