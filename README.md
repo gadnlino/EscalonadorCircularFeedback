@@ -99,7 +99,7 @@ Exemplo
 }
 ```
 
-![](https://media.giphy.com/media/SaLthcfQxkAMca2Osz/giphy.gif)
+![](https://media.giphy.com/media/rM8ihhEeGZLK7c6mbq/giphy.gif)
 
 ## Referências
 
