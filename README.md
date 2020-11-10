@@ -56,7 +56,7 @@ O escalonador ([classe Scheduler](https://github.com/gadnlino/EscalonadorCircula
 ## Instalação
 Tendo o Python instalado em sua máquina(https://www.python.org/downloads/), execute o comando abaixo para instalar as dependências do projeto:
 
-	pip install -r requirements.txt
+	python -m pip install -r requirements.txt
 
 ## Execução
 
