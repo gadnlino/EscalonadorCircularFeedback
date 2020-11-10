@@ -30,10 +30,9 @@ Iremos parametrizar:
 
 ## Informações dos processos
 
-
-O pid é gerado quando o processo entra na fila de prontos
-Todos pids tem como ppid o processo 1, que é o kernel
-Informações do PCB vão estar na nossa estrutura de dados(classe Processo).
+O pid é gerado quando o processo entra na fila de prontos.
+Todos pids tem como ppid o processo 1, que é o kernel do sistema operacional.
+Informações do PCB estão definidas na nossa estrutura de dados([classe Process](https://github.com/gadnlino/EscalonadorCircularFeedback/blob/main/models/process.py)).
 
 ## Escalonador
 
@@ -128,6 +127,8 @@ config.json
 ```
 
 	python main.py -i config.json --output-type gif
+	
+https://media.giphy.com/media/rM8ihhEeGZLK7c6mbq/giphy.gif
 
 ![Visualização - Escalonador Round Robin/Feedback](https://media.giphy.com/media/rM8ihhEeGZLK7c6mbq/giphy.gif)
 
@@ -161,3 +162,7 @@ config.json
 [Algoritmo de linked lists em Python 2](https://medium.com/@kevin.michael.horan/data-structures-linked-lists-with-python-2d0ec4fdc18c)
 
 [Algoritmo Round Robin](https://www.geeksforgeeks.org/program-round-robin-scheduling-set-1/)
+
+## Link para o projeto:
+
+https://github.com/gadnlino/EscalonadorCircularFeedback
