@@ -1,18 +1,13 @@
 # Escalonador Circular com Feedback
-Projeto final da matéria de Sistemas Operacionais(SO 1) do período 2020.PLE do curso de Ciencia da Computação - UFRJ
 
-Os participantes do Grupo 3:
+#### Objetivo
 
-- Daniel Cardoso
-- Guilhermer Avelino
-- Gustavo Muzy
+O objetivo do trabalho é simular a execução do escalonador de um sistema operacional, utilizando a estratégia circular para distribuição do tempo de processador entre os processos, e utilizando uma atribuição de prioridade dinâmica(Feedback) a depender das operações de IO realizadas por cada processo.
 
-#### Plano
-
-A princípio faremos em python.
+<!-- A princípio faremos em python.
 Daniel propos a refaze-lo em C, após a finalização do código em python.
 Após conversar com a professora e considerando o prazo do trabalho, 
-julgamos desnecessário refazer em C
+julgamos desnecessário refazer em C -->
 
 
 ## Premissas:
@@ -53,19 +48,28 @@ O escalonador (classe Scheduler) manipula o estado dos processos, controlando as
 - E/S fita - alta prioridade
 - E/S impressora - alta prioridade
 
+## Instalação
+Tendo o Python instalado em sua máquina(https://www.python.org/downloads/), execute o comando abaixo para instalar as dependências do projeto:
+
+	pip install -r requirements.txt
+
 ## Execução
 
     python3 main.py --input_file <input_file> [--output-type gif|stdout] [--save-intermediary]
 
 Mais métodos de impressão estão em desenvolvimento.
 
-## Configuração
+## Propriedades do arquivo de entrada
 
 - **generateProcessesAtRandom**: Se passsado como **true**, irá gerar um numero de processos e a configuração desses aleatoriamente. Deve ser passado como **false** se a propriedade '**processes**' estiver presente.
-- **timeSlice**: Fatia de tempo de cada processo, em segundos.
-- **ioDevices**: Parâmetros dos dispositivos de E/S que poderão ser utilidados pelos processos.
+- **timeSlice**: Fatia de tempo atribuída a cada processo, em segundos.
+- **ioDevices**: Lista com os dispositivos de IO que podem ser utilizados pelos processos. Um ioDevice deve possuir os seguintes parâmetros:
+	- **name**: O nome do dispositivo (nos nossos exemplos: 'printer', 'hardDisk', 'magneticTape').
+	- **requiredTime**: O tempo necessário para utilizar o dispositivo.
+	- **returnPriority**: A prioridade atribuida ao processo que termina de utilizar o dispositivo.
+
 - **processes**:
-  Configuração dos processos.
+  Lista de processos. Um processo deve ter os seguintes parâmetros:
   - **arrivalTime**: Tempo de chegada do processo na fila de prontos.
   - **totalTime**: Tempo  total de execução do processo.
   - **interruptions**: Definição das interrupções que irão ocorrer durante a execução do processo.
@@ -80,6 +84,8 @@ Mais métodos de impressão estão em desenvolvimento.
 
 Exemplo
 ---
+
+config.json
 
 ```json
 {
@@ -121,8 +127,9 @@ Exemplo
 }
 ```
 
-![](https://media.giphy.com/media/rM8ihhEeGZLK7c6mbq/giphy.gif)
+	python main.py -i config.json --output-type gif
 
+![Visualização - Escalonador Round Robin/Feedback](https://media.giphy.com/media/rM8ihhEeGZLK7c6mbq/giphy.gif)
 
 
 ## Desafios
@@ -132,6 +139,14 @@ Exemplo
 - Dificuldade com o plot das informações embaixo do gráfico gerado pelo código. Elas ficavam empilhadas uma na outra. 
 
 - Problemas com o plot das barras dos processos no gráfico gerado pelo código. Dificuldade em saber o tamanho apropriado. 
+
+## Membros do grupo:
+
+<!-- Os participantes do Grupo 3: -->
+
+- Daniel Cardoso ([DCarts](https://www.geeksforgeeks.org/program-round-robin-scheduling-set-1/))
+- Guilherme Avelino ([gadnlino](https://github.com/gadnlino))
+- Gustavo Muzy ([GustavoMuzyFraga](https://github.com/DCarts))
 
 ## Referências
 
@@ -146,4 +161,3 @@ Exemplo
 [Algoritmo de linked lists em Python 2](https://medium.com/@kevin.michael.horan/data-structures-linked-lists-with-python-2d0ec4fdc18c)
 
 [Algoritmo Round Robin](https://www.geeksforgeeks.org/program-round-robin-scheduling-set-1/)
-
