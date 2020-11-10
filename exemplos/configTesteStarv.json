@@ -1,0 +1,99 @@
+{
+	"generateProcessesAtRandom": false,
+	"timeSlice": 5,
+	"ioDevices": [
+		{
+			"name": "hardDisk",
+			"requiredTime": 10,
+			"returnPriority": "low"
+		},
+		{
+			"name": "magneticTape",
+			"requiredTime": 4,
+			"returnPriority": "high"
+		},
+		{
+			"name": "printer",
+			"requiredTime": 5,
+			"returnPriority": "high"
+		}
+	],
+	"processes": [
+		{
+			"arrivalTime": 0,
+			"totalTime": 6
+		},
+		{
+			"arrivalTime": 1,
+			"totalTime": 36,
+			"interruptions": [
+				{
+					"category": "printer",
+					"processTime": 4
+				},
+				{
+					"category": "printer",
+					"processTime": 8
+				},
+				{
+					"category": "printer",
+					"processTime": 12
+				},
+				{
+					"category": "printer",
+					"processTime": 16
+				},
+				{
+					"category": "printer",
+					"processTime": 20
+				},
+				{
+					"category": "printer",
+					"processTime": 24
+				},
+				{
+					"category": "printer",
+					"processTime": 28
+				},
+				{
+					"category": "printer",
+					"processTime": 32
+				}
+			]
+		},
+		{
+			"arrivalTime": 2,
+			"totalTime": 40,
+			"interruptions": [
+				{
+					"category": "magneticTape",
+					"processTime": 5
+				},
+				{
+					"category": "magneticTape",
+					"processTime": 10
+				},
+				{
+					"category": "magneticTape",
+					"processTime": 15
+				},
+				{
+					"category": "magneticTape",
+					"processTime": 20
+				},
+				{
+					"category": "magneticTape",
+					"processTime": 25
+				},
+				{
+					"category": "magneticTape",
+					"processTime": 30
+				},
+				{
+					"category": "magneticTape",
+					"processTime": 35
+				}
+			]
+		}
+	]
+}

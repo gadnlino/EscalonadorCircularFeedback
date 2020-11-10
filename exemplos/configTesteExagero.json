@@ -1,0 +1,133 @@
+{
+	"generateProcessesAtRandom": false,
+	"timeSlice": 5,
+	"ioDevices":[
+		{
+			"name":"hardDisk",
+			"requiredTime": 10,
+			"returnPriority": "low"
+		},
+		{
+			"name":"magneticTape",
+			"requiredTime": 4,
+			"returnPriority": "high"
+		},
+		{
+			"name":"printer",
+			"requiredTime": 5,
+			"returnPriority": "high"
+		}
+	],
+	"processes":[
+		{
+			"arrivalTime":0,
+			"totalTime": 20,
+			"interruptions":[
+				{
+					"category":"hardDisk",
+					"processTime":4
+				}
+			]
+		},
+		{
+			"arrivalTime":1,
+			"totalTime": 5
+		},
+		{
+			"arrivalTime":1,
+			"totalTime": 5
+		},
+		{
+			"arrivalTime":1,
+			"totalTime": 5
+		},
+		{
+			"arrivalTime":1,
+			"totalTime": 5
+		},
+		{
+			"arrivalTime":1,
+			"totalTime": 5
+		},
+		{
+			"arrivalTime":1,
+			"totalTime": 5
+		},
+		{
+			"arrivalTime":1,
+			"totalTime": 5
+		},
+		{
+			"arrivalTime":1,
+			"totalTime": 5
+		},
+		{
+			"arrivalTime":1,
+			"totalTime": 5
+		},
+		{
+			"arrivalTime":1,
+			"totalTime": 5
+		},
+		{
+			"arrivalTime":1,
+			"totalTime": 5
+		},
+		{
+			"arrivalTime":1,
+			"totalTime": 5
+		},
+		{
+			"arrivalTime":1,
+			"totalTime": 5
+		},
+		{
+			"arrivalTime":2,
+			"totalTime":3,
+			"interruptions":[
+				{
+					"category":"magneticTape",
+					"processTime":1
+				}
+			]
+		},
+		{
+			"arrivalTime":3,
+			"totalTime":2,
+			"interruptions":[
+				{
+					"category":"magneticTape",
+					"processTime":0
+				}
+			]
+		},
+		{
+			"arrivalTime":4,
+			"totalTime":5
+		},
+		{
+			"arrivalTime":4,
+			"totalTime":5,
+			"interruptions":[
+				{
+					"category":"printer",
+					"processTime":3
+				}
+			]
+		},
+		{
+			"arrivalTime":5,
+			"totalTime":5,
+			"interruptions":[
+				{
+					"category":"printer",
+					"processTime":1
+				},
+				{
+					"category":"magneticTape",
+					"processTime":3
+				}
+			]
+		}
+	]
+}
