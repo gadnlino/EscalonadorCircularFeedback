@@ -11,7 +11,7 @@ julgamos desnecessário refazer em C -->
 
 ## Premissas:
 
-O timeSlice de cada processo, o número de processos e o tempo de cada dispositivo de IO são parametrizáveis(Olhar seção 'Propriedades do arquivo de entrada'). Na maior parte dos nossos [exemplos](https://github.com/gadnlino/EscalonadorCircularFeedback/tree/main/exemplos), iremos usar os seguintes valores:
+O timeSlice de cada processo, o número de processos, o tempo de cada dispositivo de IO e a prioridade de retorno dos dispositivos que os utilizam são parametrizáveis(Olhar seção 'Propriedades do arquivo de entrada'). Na maior parte dos nossos [exemplos](https://github.com/gadnlino/EscalonadorCircularFeedback/tree/main/exemplos), iremos usar os seguintes valores:
 
 - O timeSlice de cada processo: 5
 - **Tempo da E/S de disco**: 10, baixa prioridade
@@ -75,7 +75,7 @@ Tendo o Python instalado em sua máquina(https://www.python.org/downloads/), exe
 - **ioDevices**: Lista com os dispositivos de IO que podem ser utilizados pelos processos. Um ioDevice deve possuir os seguintes parâmetros:
 	- **name**: O nome do dispositivo (nos nossos exemplos: 'printer', 'hardDisk', 'magneticTape').
 	- **requiredTime**: O tempo necessário para utilizar o dispositivo.
-	- **returnPriority**: A prioridade atribuida ao processo que termina de utilizar o dispositivo.
+	- **returnPriority**: A prioridade atribuida ao processo que termina de utilizar o dispositivo. Valores: low, high.
 
 - **processes**:
   Lista de processos. Um processo deve ter os seguintes parâmetros:
