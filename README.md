@@ -70,7 +70,7 @@ Tendo o Python instalado em sua máquina(https://www.python.org/downloads/), exe
 
 ## Propriedades do arquivo de entrada
 
-- **generateProcessesAtRandom**: Se passsado como **true**, irá gerar um numero de processos e a configuração desses aleatoriamente. Deve ser passado como **false** se a propriedade '**processes**' estiver presente.
+- **generateProcessesAtRandom**: Se passsado como **true**, irá gerar um numero de processos e a configuração desses aleatoriamente. Deve ser passado como **false** se a propriedade '**processes**' estiver presente. Número máximo de processos gerados: 5.
 - **timeSlice**: Fatia de tempo atribuída a cada processo, em segundos.
 - **ioDevices**: Lista com os dispositivos de IO que podem ser utilizados pelos processos. Um ioDevice deve possuir os seguintes parâmetros:
 	- **name**: O nome do dispositivo (nos nossos exemplos: 'printer', 'hardDisk', 'magneticTape').
@@ -150,6 +150,14 @@ config.json
 <!-- - Dificuldade com o plot das informações embaixo do gráfico gerado pelo código. Elas ficavam empilhadas uma na outra.  -->
 
 - Problemas com o plot das barras dos processos no gráfico gerado pelo código. Dificuldade em saber o tamanho apropriado. 
+
+- De inicio, decidimos fixar os tempos dos dispositivos de IO da seguinte maneira:
+	- **Tempo da E/S de disco**: 17
+	- **Tempo da E/S de fita magnética**: 39
+	- **Tempo da E/S da impressora**: 420
+- Isso levava a tempos totais de execução desnecessariamente altos, então decidimos alterar para os valores atuais(ver seção 'Premissas').
+
+- Com a geração de processos aleatória, poderia haver muitos processos executando, o que poderia prejudicar a geração do gif para a visualização. Decidimos então fixar o número máximo de processos gerados em 5.
 
 ## Membros do grupo:
 
