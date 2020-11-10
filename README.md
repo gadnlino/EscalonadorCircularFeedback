@@ -1,6 +1,12 @@
 # Escalonador Circular com Feedback
 Projeto final da matéria de Sistemas Operacionais(SO 1) do período 2020.PLE do curso de Ciencia da Computação - UFRJ
 
+Os participantes do Grupo 3:
+
+- Daniel Cardoso
+- Guilhermer Avelino
+- Gustavo Muzy
+
 #### Plano
 
 A princípio faremos em python.
