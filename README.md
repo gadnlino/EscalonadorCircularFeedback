@@ -3,9 +3,22 @@ Projeto final da matéria de Sistemas Operacionais(SO 1) do período 2020.PLE do
 
 #### Plano
 
-Iremos fazer em python (se ficar trivial, o Daniel vai refazer em C)
+A princípio faremos em python.
+Daniel propos a refaze-lo em C, após a finalização do código em python.
+Após conversar com a professora e considerando o prazo do trabalho, 
+julgamos desnecessário refazer em C
+
 
 ## Premissas:
+
+De inicio decidimos:
+- **Tempo da E/S de disco**: 17
+- **Tempo da E/S de fita magnética**: 39
+- **Tempo da E/S da impressora**: 420
+
+Após uma revisão desses tempos,
+era desnecessariamente alto, 
+logo mudamos a parametrização
 
 Iremos parametrizar:
 - O número de processos 
