@@ -128,7 +128,7 @@ config.json
 
 	python main.py -i config.json --output-type gif
 	
-https://media.giphy.com/media/rM8ihhEeGZLK7c6mbq/giphy.gif
+[https://media.giphy.com/media/rM8ihhEeGZLK7c6mbq/giphy.gif](https://media.giphy.com/media/rM8ihhEeGZLK7c6mbq/giphy.gif)
 
 ![Visualização - Escalonador Round Robin/Feedback](https://media.giphy.com/media/rM8ihhEeGZLK7c6mbq/giphy.gif)
 
