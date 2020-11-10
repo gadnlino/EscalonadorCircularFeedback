@@ -28,14 +28,16 @@ logo mudamos a parametrização
 
 Iremos parametrizar:
 - O número de processos 
-- O quantum de cada processos
+- O quantum de cada processos: 5
 - **Tempo da E/S de disco**: 10, baixa prioridade
 - **Tempo da E/S de fita magnética**: 4, alta prioridade
 - **Tempo da E/S da impressora**: 5, alta prioridade
 
 ## Informações dos processos
 
-O pid vai ser gerado quando o processo entrar fila de prontos  
+
+O pid é gerado quando o processo entra na fila de prontos
+Todos pids tem como ppid o processo 1, que é o kernel
 Informações do PCB vão estar na nossa estrutura de dados(classe Processo).
 
 ## Escalonador
@@ -44,11 +46,12 @@ O escalonador (classe Scheduler) manipula o estado dos processos, controlando as
 
 ### Filas
 
-- Processos prontos - baixa prioridade
-- Processos prontos - alta prioridade
-- E/S disco
-- E/S fita
-- E/S impressora
+- Novos processos prontos - alta prioridade
+- Processos em espera após usar time-slice - baixa prioridade
+
+- E/S disco - baixa prioridade
+- E/S fita - alta prioridade
+- E/S impressora - alta prioridade
 
 ## Execução
 
@@ -119,6 +122,16 @@ Exemplo
 ```
 
 ![](https://media.giphy.com/media/rM8ihhEeGZLK7c6mbq/giphy.gif)
+
+
+
+## Desafios
+
+- Havia um bug com o scheduler, usava o tempo do processador.
+
+- Dificuldade com o plot das informações embaixo do gráfico gerado pelo código. Elas ficavam empilhadas uma na outra. 
+
+- Problemas com o plot das barras dos processos no gráfico gerado pelo código. Dificuldade em saber o tamanho apropriado. 
 
 ## Referências
 
