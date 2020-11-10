@@ -56,8 +56,6 @@ Tendo o Python instalado em sua máquina(https://www.python.org/downloads/), exe
 
     python3 main.py --input_file <input_file> [--output-type gif|stdout] [--save-intermediary]
 
-Mais métodos de impressão estão em desenvolvimento.
-
 ## Propriedades do arquivo de entrada
 
 - **generateProcessesAtRandom**: Se passsado como **true**, irá gerar um numero de processos e a configuração desses aleatoriamente. Deve ser passado como **false** se a propriedade '**processes**' estiver presente.
