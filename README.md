@@ -1,6 +1,6 @@
 # Escalonador Circular com Feedback
 
-#### Objetivo
+## Objetivo
 
 O objetivo do trabalho é simular a execução do escalonador de um sistema operacional, utilizando a estratégia circular para distribuição do tempo de processador entre os processos, e utilizando uma atribuição de prioridade dinâmica(Feedback) a depender das operações de IO realizadas por cada processo.
 
@@ -9,34 +9,40 @@ Daniel propos a refaze-lo em C, após a finalização do código em python.
 Após conversar com a professora e considerando o prazo do trabalho, 
 julgamos desnecessário refazer em C -->
 
-
 ## Premissas:
 
-De inicio decidimos:
+O timeSlice de cada processo, o número de processos e o tempo de cada dispositivo de IO são parametrizáveis(Olhar seção 'Propriedades do arquivo de entrada'). Na maior parte dos nossos [exemplos](https://github.com/gadnlino/EscalonadorCircularFeedback/tree/main/exemplos), iremos usar os seguintes valores:
+
+- O timeSlice de cada processo: 5
+- **Tempo da E/S de disco**: 10, baixa prioridade
+- **Tempo da E/S de fita magnética**: 4, alta prioridade
+- **Tempo da E/S da impressora**: 5, alta prioridade
+
+<!-- De inicio decidimos:
 - **Tempo da E/S de disco**: 17
 - **Tempo da E/S de fita magnética**: 39
 - **Tempo da E/S da impressora**: 420
 
-Após uma revisão desses tempos,
-era desnecessariamente alto, 
-logo mudamos a parametrização
+Após uma revisão desses tempos, era desnecessariamente alto, logo mudamos a parametrização.
 
 Iremos parametrizar:
 - O número de processos 
 - O quantum de cada processos: 5
 - **Tempo da E/S de disco**: 10, baixa prioridade
 - **Tempo da E/S de fita magnética**: 4, alta prioridade
-- **Tempo da E/S da impressora**: 5, alta prioridade
+- **Tempo da E/S da impressora**: 5, alta prioridade -->
 
-## Informações dos processos
+## Componentes principais
+
+### Informações dos processos
 
 O pid é gerado quando o processo entra na fila de prontos.
 Todos pids tem como ppid o processo 1, que é o kernel do sistema operacional.
 Informações do PCB estão definidas na nossa estrutura de dados([classe Process](https://github.com/gadnlino/EscalonadorCircularFeedback/blob/main/models/process.py)).
 
-## Escalonador
+### Escalonador
 
-O escalonador (classe Scheduler) manipula o estado dos processos, controlando as filas de execução do processador e de acesso aos dispositivos de entrada e saída, a cada instante de tempo.
+O escalonador ([classe Scheduler](https://github.com/gadnlino/EscalonadorCircularFeedback/blob/main/scheduler.py)) manipula o estado dos processos, controlando as filas de execução do processador e de acesso aos dispositivos de entrada e saída, a cada instante de tempo.
 
 ### Filas
 
@@ -55,6 +61,12 @@ Tendo o Python instalado em sua máquina(https://www.python.org/downloads/), exe
 ## Execução
 
     python3 main.py --input_file <input_file> [--output-type gif|stdout] [--save-intermediary]
+	
+### Opções:
+
+- **--input-file**: O nome do arquivo de configuração a ser utilizado. Deve ser um arquivo json com as propriedades listadas na seção 'Propriedades do arquivo de entrada'
+- **--output-type**: O formato de saída do escalonador. Valores: gif, stdout. Padrão: stdout.
+- **--save-intermediary**: Se esta flag estiver presente, o programa irá gerar o arquivo intermediários com os frames do escalonador(esse é o arquivo utilizado para gerar a visualização).
 
 ## Propriedades do arquivo de entrada
 
@@ -133,9 +145,9 @@ config.json
 
 ## Desafios
 
-- Havia um bug com o scheduler, usava o tempo do processador.
+- Havia um bug com o scheduler, os dispositivos de IO estavam utilizando erroneamente o tempo do processador.
 
-- Dificuldade com o plot das informações embaixo do gráfico gerado pelo código. Elas ficavam empilhadas uma na outra. 
+<!-- - Dificuldade com o plot das informações embaixo do gráfico gerado pelo código. Elas ficavam empilhadas uma na outra.  -->
 
 - Problemas com o plot das barras dos processos no gráfico gerado pelo código. Dificuldade em saber o tamanho apropriado. 
 
@@ -162,5 +174,7 @@ config.json
 [Algoritmo Round Robin](https://www.geeksforgeeks.org/program-round-robin-scheduling-set-1/)
 
 ## Link para o projeto:
+
+Mais detalhes e exemplos podem ser encontrados no link abaixo:
 
 https://github.com/gadnlino/EscalonadorCircularFeedback
