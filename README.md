@@ -157,7 +157,7 @@ config.json
 	- **Tempo da E/S da impressora**: 420
 - Isso levava a tempos totais de execução desnecessariamente altos, então decidimos alterar para os valores atuais(ver seção 'Premissas').
 
-- Com a geração de processos aleatória, poderia haver muitos processos executando, o que poderia prejudicar a geração do gif para a visualização. Decidimos então fixar o número máximo de processos gerados em 5.
+- Com a geração de processos aleatória, poderia haver muitos processos executando, o que poderia prejudicar a geração do gif para a visualização. Se for necessário ver o escalonamento de muitos processos, é recomendado não gerar o gif, ou pode ser que o tempo de execução do programa ultrapasse facilmente um minuto.
 
 ## Membros do grupo:
 
